@@ -1,0 +1,81 @@
+Maps -----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+A map is a dictionary. (std::map)
+	- uses key value
+
+An unordered map is a hash map.
+	- does not use key value
+
+A multimap is a map but you can have multiple nodes that have the same key. 
+	- uses key value
+
+maps use a binary structure, or binary tree. It basically uses a midpoint search algorithm.
+It's really fast. A lot faster than iterating through an array.
+
+map::insert(key,value)
+map::find(key)
+
+map::end();
+map::begin();
+
+if your key is not found, the map will return map::end();
+
+Bindings -------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+The OpenGL technique can be incredibly opaque and confusing. I know! I've been writing 3D engines based upon OpenGL for years (off and on). 
+In my case part of the problem is, I write the engine to hide the underlying 3D API (OpenGL), so once I get something working I never see the 
+OpenGL code again.
+
+But here is one technique that helps my brain comprehend the "OpenGL way". I think this way of thinking about it is true (but not the whole story).
+
+Think about the hardware graphics/GPU cards. They have certain capabilities implemented in hardware. For example, the GPU may only be able to update 
+(write) one texture at a time. Nonetheless, it is mandatory that the GPU contain many textures within the RAM inside the GPU, because transfer between 
+CPU memory and GPU memory is very slow.
+
+So what the OpenGL API does is to create the notion of an "active texture". Then when we call an OpenGL API function to copy an image into a texture, 
+we must do it this way:
+
+1:  generate a texture and assign its identifier to an unsigned integer variable.
+2:  bind the texture to the GL_TEXTURE bind point (or some such bind point).
+3:  specify the size and format of the texture bound to GL_TEXTURE target.
+4:  copy some image we want on the texture to the GL_TEXTURE target.
+And if we want to draw an image on another texture, we must repeat that same process.
+
+When we are finally ready to render something on the display, we need our code to make one or more of the textures we created and copied images upon 
+to become accessible by our fragment shader.
+
+As it turns out, the fragment shader can access more than one texture at a time by accessing multiple "texture units" (one texture per texture unit). So, 
+our code must bind the textures we want to make available to the texture units our fragment shaders expect them bound to.
+
+So we must do something like this:
+
+glActiveTexture (GL_TEXTURE0);
+glBindTexture (GL_TEXTURE_2D, mytexture0);
+
+glActiveTexture (GL_TEXTURE1);
+glBindTexture (GL_TEXTURE_2D, mytexture1);
+
+glActiveTexture (GL_TEXTURE2);
+glBindTexture (GL_TEXTURE_2D, mytexture2);
+
+glActiveTexture (GL_TEXTURE3);
+glBindTexture (GL_TEXTURE_2D, mytexture3);
+
+Now, I must say that I love OpenGL for many reasons, but this approach drive me CRAZY. That's because all the software I have written for years would 
+look like this instead:
+
+error = glSetTexture (GL_TEXTURE0, GL_TEXTURE_2D, mytexture0);
+error = glSetTexture (GL_TEXTURE1, GL_TEXTURE_2D, mytexture1);
+error = glSetTexture (GL_TEXTURE2, GL_TEXTURE_2D, mytexture2);
+error = glSetTexture (GL_TEXTURE3, GL_TEXTURE_2D, mytexture3);
+
+Bamo. No need for setting all this state over and over and over again. Just specify which texture-unit to attach the texture to, plus the texture-type 
+to indicate how to access the texture, plus the ID of the texture I want to attach to the texture unit.
+
+I also wouldn't need to bind a texture as the active texture to copy an image to it, I would just give the ID of the texture I wanted to copy to. Why 
+should it need to be bound?
+
+Well, there's the catch that forces OpenGL to be structured in the crazy way it is. Because the hardware does some things, and the software driver 
+does other things, and because what is done where is a variable (depends on GPU card), they need some way to keep the complexity under control. Their 
+solution is essentially to have only one bind point for each kind of entity/object, and to require we bind our entities to those bind points before we 
+call functions that manipulate them. And as a second purpose, binding entities is what makes them available to the GPU, and our various shaders that 
+execute in the GPU.

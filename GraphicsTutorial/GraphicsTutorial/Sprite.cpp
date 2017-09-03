@@ -1,5 +1,6 @@
 #include "Sprite.h"
 #include "Vertex.h"
+#include "ResourceManager.h"
 
 #include <cstddef>
 
@@ -9,20 +10,21 @@ Sprite::Sprite()
 	_vboId = 0;
 }
 
-
 Sprite::~Sprite()
 {
-	//Releases the memory.
+	//Releases the memory in the destrucutor.
 	if (_vboId != 0) {
 		glDeleteBuffers(1, &_vboId);
 	}
 }
 
-void Sprite::init(float x, float y, float width, float height) {
+void Sprite::init(float x, float y, float width, float height, std::string texturePath) {
 	_x = x;
 	_y = y;
 	_width = width;
 	_height = height;
+
+	_texture = ResourceManager::getTexture(texturePath);
 
 	if (_vboId == 0) {
 		//The Gen Buffer takes a pointer (using the &), like most things in openGL.
@@ -75,6 +77,11 @@ void Sprite::init(float x, float y, float width, float height) {
 }
 
 void Sprite::draw() {
+	
+	//We don't need to unbind the texture because something else could use it
+	//What we should do is check to see if its bound, if not bind it.
+	glBindTexture(GL_TEXTURE_2D, _texture.id);
+
 	glBindBuffer(GL_ARRAY_BUFFER, _vboId);
 
 	glEnableVertexAttribArray(0);

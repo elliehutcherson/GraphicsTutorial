@@ -1,3 +1,14 @@
+Definitions ----------------------------------------------------------------------------------------------------------------------------------------------------------------
+scope-resolution-operator =  ::
+
+vector.push_back() pushes a variable into the vector and resizes it.
+vector.back() gives us the last item without removing it.
+vector.pop_back()  gives us the last item and removes it.
+
+
+Static Variables -----------------------------------------------------------------------------------------------------------------------------------------------------------
+Static variables are a bit weird. You have to declare them in the header file and in the cpp file.
+
 Maps -----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 A map is a dictionary. (std::map)
 	- uses key value

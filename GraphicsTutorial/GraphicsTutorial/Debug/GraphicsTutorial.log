@@ -1,3 +1,4 @@
 ﻿  MainGame.cpp
-  GraphicsTutorial.vcxproj -> C:\Users\Ellie\Documents\Visual Studio 2017\Projects\GraphicsTutorial\Debug\GraphicsTutorial.exe
-  GraphicsTutorial.vcxproj -> C:\Users\Ellie\Documents\Visual Studio 2017\Projects\GraphicsTutorial\Debug\GraphicsTutorial.pdb (Partial PDB)
+d:\repositories\graphicstutorial\graphicstutorial\graphicstutorial\maingame.cpp(134): warning C4018: '<': signed/unsigned mismatch
+  GraphicsTutorial.vcxproj -> D:\Repositories\GraphicsTutorial\GraphicsTutorial\Debug\GraphicsTutorial.exe
+  GraphicsTutorial.vcxproj -> D:\Repositories\GraphicsTutorial\GraphicsTutorial\Debug\GraphicsTutorial.pdb (Partial PDB)

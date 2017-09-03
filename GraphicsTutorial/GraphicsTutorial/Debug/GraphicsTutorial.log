@@ -1,12 +1,2 @@
-﻿  MainGame.cpp
-d:\repositories\graphicstutorial\graphicstutorial\graphicstutorial\maingame.cpp(135): warning C4018: '<': signed/unsigned mismatch
-d:\repositories\graphicstutorial\graphicstutorial\graphicstutorial\maingame.cpp(150): warning C4244: 'initializing': conversion from 'Uint32' to 'float', possible loss of data
-d:\repositories\graphicstutorial\graphicstutorial\graphicstutorial\maingame.cpp(167): warning C4244: 'argument': conversion from 'double' to 'Uint32', possible loss of data
-d:\repositories\graphicstutorial\graphicstutorial\graphicstutorial\maingame.cpp(177): warning C4244: 'initializing': conversion from 'Uint32' to 'float', possible loss of data
-d:\repositories\graphicstutorial\graphicstutorial\graphicstutorial\maingame.cpp(179): warning C4244: 'initializing': conversion from 'Uint32' to 'float', possible loss of data
-  Generating Code...
-  Compiling...
-  main.cpp
-  Generating Code...
-  GraphicsTutorial.vcxproj -> D:\Repositories\GraphicsTutorial\GraphicsTutorial\Debug\GraphicsTutorial.exe
+﻿  GraphicsTutorial.vcxproj -> D:\Repositories\GraphicsTutorial\GraphicsTutorial\Debug\GraphicsTutorial.exe
   GraphicsTutorial.vcxproj -> D:\Repositories\GraphicsTutorial\GraphicsTutorial\Debug\GraphicsTutorial.pdb (Partial PDB)

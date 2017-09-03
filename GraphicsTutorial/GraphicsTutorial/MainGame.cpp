@@ -44,6 +44,10 @@ void MainGame::initSystems() {
 	//Initialize SDL 
 	SDL_Init(SDL_INIT_EVERYTHING); 
 
+	//Draws two windows instead of drawing on the same window over and over.
+	//This attribute needs to be set before the window is created.
+	SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
+	
 	_window = SDL_CreateWindow("Game Engine", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,_screenWidth,_screenHeight,SDL_WINDOW_OPENGL);
 	
 	if (_window == nullptr) {
@@ -61,12 +65,14 @@ void MainGame::initSystems() {
 		fatalError("Something went wrong when initializing glew!");
 	}
 	
-	//Draws two windows instead of drawing on the same window over and over.
-	SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
+	std::printf("***   OpenGL Version: %s   ***\n", glGetString(GL_VERSION));
 
 	//Anytime glClear is called (clearing the window of what was drawn), it is cleared to the color we set here.
 	//glClear is called at the beginning of drawGame().
 	glClearColor(0.0f, 0.0f, 1.0f, 1.0f);
+
+	//Set V-Sync On/Off
+	SDL_GL_SetSwapInterval(0);
 
 	initShaders();
 }

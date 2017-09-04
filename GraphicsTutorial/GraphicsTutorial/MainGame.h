@@ -2,13 +2,13 @@
 
 #include <SDL\SDL.h>
 #include <GL\glew.h>
-#include <glm/glm.hpp>
 
 #include <GameEngine\GameEngine.h>
-#include <GameEngine/GLSLProgram.h>
-#include <GameEngine/GLTexture.h>
-#include <GameEngine/Sprite.h>
-#include <GameEngine/Window.h>
+#include <GameEngine\GLSLProgram.h>
+#include <GameEngine\GLTexture.h>
+#include <GameEngine\Sprite.h>
+#include <GameEngine\Window.h>
+#include <GameEngine\Camera2D.h>
 
 #include <vector>
 
@@ -39,6 +39,7 @@ private:
 
 	GameEngine::GLSLProgram _colorProgram;
 	GameEngine::GLTexture _playerTexture;
+	GameEngine::Camera2D _camera;
 
 	float _fps;
 	float _maxFPS;

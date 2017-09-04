@@ -11,6 +11,7 @@ MainGame::MainGame() :
 	_gameState(GameState::PLAY),
 	_maxFPS(60.0f)
 {
+	_camera.init(_screenWidth,_screenHeight);
 }
 
 MainGame::~MainGame()
@@ -20,14 +21,12 @@ MainGame::~MainGame()
 void MainGame::run() {
 	initSystems();
 
+	//Now we are passing in real world coordinates because of our camera class
 	_sprites.push_back(new GameEngine::Sprite());
-	_sprites.back()->init(-1.0f, -1.0f, 1.0f, 1.0f, "Textures/jimmyJump_pack/PNG/CharacterRight_Standing.png");
+	_sprites.back()->init(0.0f, 0.0f, _screenWidth/4, _screenHeight/4, "Textures/jimmyJump_pack/PNG/CharacterRight_Standing.png");
 	
 	_sprites.push_back(new GameEngine::Sprite());
-	_sprites.back()->init(0.0f, 0.0f, 1.0f, 1.0f, "Textures/jimmyJump_pack/PNG/CharacterRight_Standing.png");
-
-	_sprites.push_back(new GameEngine::Sprite());
-	_sprites.back()->init(0.0f, -1.0f, 1.0f, 1.0f, "Textures/jimmyJump_pack/PNG/CharacterRight_Standing.png");
+	_sprites.back()->init(_screenWidth/4, 1.0f, _screenWidth/4, _screenHeight/4, "Textures/jimmyJump_pack/PNG/CharacterRight_Standing.png");
 
 	gameLoop();
 }
@@ -62,6 +61,9 @@ void MainGame::proccessInput() {
 	
 	SDL_Event myEvent;
 
+	const float CAMERA_SPEED = 20.f;
+	const float SCALE_SPEED = 0.05f;
+
 	while (SDL_PollEvent(&myEvent)) {
 		switch (myEvent.type) {
 			case SDL_QUIT:
@@ -69,6 +71,28 @@ void MainGame::proccessInput() {
 				break;
 			case SDL_MOUSEMOTION:
 				//std::cout << myEvent.motion.x << "," << myEvent.motion.y << std::endl;
+				break;
+			case SDL_KEYDOWN:
+				//to check the key
+				switch (myEvent.key.keysym.sym) {
+					case SDLK_w:
+						_camera.setPosition(_camera.getPosition() + glm::vec2(0.0f, CAMERA_SPEED));
+						break;
+					case SDLK_s:
+						_camera.setPosition(_camera.getPosition() + glm::vec2(0.0f, -CAMERA_SPEED));
+						break;
+					case SDLK_a:
+						_camera.setPosition(_camera.getPosition() + glm::vec2(-CAMERA_SPEED, 0.0f));
+						break;
+					case SDLK_d:
+						_camera.setPosition(_camera.getPosition() + glm::vec2(CAMERA_SPEED, 0.0f));
+						break;
+					case SDLK_q:
+						_camera.setScale(_camera.getScale() + SCALE_SPEED);
+						break;
+					case SDLK_e:
+						_camera.setScale(_camera.getScale() - SCALE_SPEED);
+				}
 				break;
 		}
 	}
@@ -96,12 +120,24 @@ void MainGame::drawGame() {
 	//If you are doing multitexture, you would set the texture location equal to the active texture set above.
 	glUniform1i(textureLocation, 0);
 
-
+	//Set the constantly changing time variable
 	//We only need to set the uniform whenever we need to change it.
 	//So first we find the location of the variable
 	GLint timeLocation = _colorProgram.getUniformLocation("time");
 	////After getting the location, we need to send it a new value, sending 1 float hence "1f".
 	glUniform1f(timeLocation,_time);
+
+	//This is the P variable in our colorshading.vert. The P variable is for our orthogrphaic
+	//matrix from the Camera2D class.
+	GLint pLocation = _colorProgram.getUniformLocation("P");
+	glm::mat4 cameraMatrix = _camera.getCameraMatrix();
+	
+	//now we need to upload the matrix to the gpu with gluniform calls
+	//The last parameter is the value, which is our cameraMatrix. We need to pass
+	// it in byref, and to do that we pass in its a pointer to its first index, just
+	//like we would with an other vector/array. A matrix is a two-dimensional array bassically, 
+	glUniformMatrix4fv(pLocation, 1, GL_FALSE, &(cameraMatrix[0][0]));
+	
 
 	//for each sprite in _sprites, draw it.
 	for (int i = 0; i < _sprites.size(); i++) {
@@ -124,6 +160,9 @@ void MainGame::gameLoop() {
 
 		proccessInput();
 		_time += 0.05f;
+
+		_camera.update();
+
 		drawGame();
 		calculateFPS();
 

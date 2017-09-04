@@ -9,9 +9,20 @@ out vec2 fragmentPosition;
 out vec4 fragmentColor;
 out vec2 fragmentUV;
 
+//our orthographic matrix
+uniform mat4 P;
+
 void main() {
-	//Set the x,y position on the screen
-	gl_Position.xy = vertexPosition;
+	//Set the x,y position on the screen\
+	
+	//Camera2D update
+	//we have to multiply our orthographic matrix (P) with
+	//the vertexPosition to get our normalized device coordinates? - Camera2d
+	//because vertexPosition is a vec2, we convert it to a vec4, set z = 0.0, and w always equals 1.0 for the moment.
+	//I'm assuming w is pitch/yaw. Then we convert it back to vec2 with .xy
+	
+	gl_Position.xy = (P * vec4(vertexPosition, 0.0, 1.0)).xy;
+	
 	//the z position is zero since we are in 2d
 	gl_Position.z = 0.0;
 	

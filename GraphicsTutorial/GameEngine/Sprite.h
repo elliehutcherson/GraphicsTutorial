@@ -4,25 +4,28 @@
 
 #include <string>
 
-class Sprite
-{
-public:
-	Sprite();
-	~Sprite();
+namespace GameEngine {
 
-	//Initialzie the sprite, x and y coordinates, width and height of the sprite object
-	//(in this case an image), and now we are include the file path of the texture we want to load.
-	void init(float x, float y, float width, float height, std::string texturePath);
+	class Sprite
+	{
+	public:
+		Sprite();
+		~Sprite();
 
-	void draw();
+		//Initialzie the sprite, x and y coordinates, width and height of the sprite object
+		//(in this case an image), and now we are include the file path of the texture we want to load.
+		void init(float x, float y, float width, float height, std::string texturePath);
 
-private:
-	float _x;
-	float _y;
-	float _width;
-	float _height;
-	GLuint _vboId;
-	GLTexture _texture;
+		void draw();
 
-};
+	private:
+		float _x;
+		float _y;
+		float _width;
+		float _height;
+		GLuint _vboId;
+		GLTexture _texture;
 
+	};
+
+}

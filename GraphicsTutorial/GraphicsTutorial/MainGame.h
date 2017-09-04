@@ -1,10 +1,13 @@
 #pragma once
+
 #include <SDL\SDL.h>
 #include <GL\glew.h>
 
-#include "GLSLProgram.h"
-#include "GLTexture.h"
-#include "Sprite.h"
+#include <GameEngine\GameEngine.h>
+#include <GameEngine/GLSLProgram.h>
+#include <GameEngine/GLTexture.h>
+#include <GameEngine/Sprite.h>
+#include <GameEngine/Window.h>
 
 #include <vector>
 
@@ -26,15 +29,15 @@ private:
 	void drawGame();
 	void calculateFPS();
 
-	SDL_Window* _window;
+	GameEngine::Window _window;
 	int _screenWidth;
 	int _screenHeight;
 	GameState _gameState;
 
-	std::vector <Sprite*> _sprites;
+	std::vector <GameEngine::Sprite*> _sprites;
 
-	GLSLProgram _colorProgram;
-	GLTexture _playerTexture;
+	GameEngine::GLSLProgram _colorProgram;
+	GameEngine::GLTexture _playerTexture;
 
 	float _fps;
 	float _maxFPS;

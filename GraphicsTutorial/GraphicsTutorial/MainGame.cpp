@@ -1,5 +1,5 @@
 #include "MainGame.h"
-#include "Errors.h"
+#include <GameEngine/Errors.h>
 
 #include <iostream>
 #include <string>
@@ -8,7 +8,6 @@ MainGame::MainGame() :
 	_screenWidth(1024),
 	_screenHeight(768),
 	_time(0.0f),
-	_window(nullptr),
 	_gameState(GameState::PLAY),
 	_maxFPS(60.0f)
 {
@@ -21,58 +20,25 @@ MainGame::~MainGame()
 void MainGame::run() {
 	initSystems();
 
-	_sprites.push_back(new Sprite());
+	_sprites.push_back(new GameEngine::Sprite());
 	_sprites.back()->init(-1.0f, -1.0f, 1.0f, 1.0f, "Textures/jimmyJump_pack/PNG/CharacterRight_Standing.png");
 	
-	_sprites.push_back(new Sprite());
+	_sprites.push_back(new GameEngine::Sprite());
 	_sprites.back()->init(0.0f, 0.0f, 1.0f, 1.0f, "Textures/jimmyJump_pack/PNG/CharacterRight_Standing.png");
 
-	_sprites.push_back(new Sprite());
+	_sprites.push_back(new GameEngine::Sprite());
 	_sprites.back()->init(0.0f, -1.0f, 1.0f, 1.0f, "Textures/jimmyJump_pack/PNG/CharacterRight_Standing.png");
 
 	gameLoop();
 }
 
 void MainGame::initSystems() {
-	/* These are all the systems that have to be instantiated/initialized before we
-	begin the loop of our system. First we initialize SDL. Then a window is created and 
-	we create a pointer to the instance of that window. Then we instantiate a new instance 
-	of SDL_GLContext and creawte a pointer to the instance of that context. The context holds all
-	of the properties pertaining to the new window.  Then we initialize glew. Also, any settings
-	that are only set once (like at the step of initializiation) should be set within this function.*/
 
-	//Initialize SDL 
-	SDL_Init(SDL_INIT_EVERYTHING); 
+	GameEngine::init();
 
-	//Draws two windows instead of drawing on the same window over and over.
-	//This attribute needs to be set before the window is created.
-	SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
-	
-	_window = SDL_CreateWindow("Game Engine", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,_screenWidth,_screenHeight,SDL_WINDOW_OPENGL);
-	
-	if (_window == nullptr) {
-		fatalError("SDL Window could not be created!");
-	}
-
-	SDL_GLContext glContext = SDL_GL_CreateContext(_window);
-	if (glContext == nullptr) {
-		fatalError("SDL_GLContext could not be created!");
-	}
-
-	//GLEW_OK = 0, so if the captured value (the returned value) does not == 0 then something is wrong.
-	GLenum error = glewInit();
-	if (error != GLEW_OK) {
-		fatalError("Something went wrong when initializing glew!");
-	}
-	
-	std::printf("***   OpenGL Version: %s   ***\n", glGetString(GL_VERSION));
-
-	//Anytime glClear is called (clearing the window of what was drawn), it is cleared to the color we set here.
-	//glClear is called at the beginning of drawGame().
-	glClearColor(0.0f, 0.0f, 1.0f, 1.0f);
-
-	//Set V-Sync On/Off
-	SDL_GL_SetSwapInterval(0);
+	//This is where we initialize things the game needs, like a window.
+	//This was a lot more complicated, but that complication has moved to the game engine.
+	_window.create("Game Engine", _screenWidth, _screenHeight, 0); 
 
 	initShaders();
 }
@@ -146,8 +112,9 @@ void MainGame::drawGame() {
 
 	_colorProgram.unuse();
 
-	//Swap our buffer and draw everything to the screen!
-	SDL_GL_SwapWindow(_window);
+	//Swap the buffer!
+	_window.swapBuffer();
+
 }
 
 void MainGame::gameLoop() {

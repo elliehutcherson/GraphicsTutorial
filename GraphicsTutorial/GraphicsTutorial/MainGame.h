@@ -2,6 +2,7 @@
 
 #include <SDL\SDL.h>
 #include <GL\glew.h>
+#include <glm/glm.hpp>
 
 #include <GameEngine\GameEngine.h>
 #include <GameEngine/GLSLProgram.h>

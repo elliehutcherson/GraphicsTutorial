@@ -1,2 +1,1 @@
-﻿  GraphicsTutorial.vcxproj -> D:\Repositories\GraphicsTutorial\GraphicsTutorial\Debug\GraphicsTutorial.exe
-  GraphicsTutorial.vcxproj -> D:\Repositories\GraphicsTutorial\GraphicsTutorial\Debug\GraphicsTutorial.pdb (Partial PDB)
+﻿LINK : fatal error LNK1168: cannot open D:\Repositories\GraphicsTutorial\GraphicsTutorial\Debug\GraphicsTutorial.exe for writing

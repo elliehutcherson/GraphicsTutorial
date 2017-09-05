@@ -1,5 +1,6 @@
 #include "MainGame.h"
 #include <GameEngine/Errors.h>
+#include <GameEngine/ResourceManager.h>
 
 #include <iostream>
 #include <string>
@@ -21,13 +22,6 @@ MainGame::~MainGame()
 void MainGame::run() {
 	initSystems();
 
-	//Now we are passing in real world coordinates because of our camera class
-	_sprites.push_back(new GameEngine::Sprite());
-	_sprites.back()->init(0.0f, 0.0f, _screenWidth/4, _screenHeight/4, "Textures/jimmyJump_pack/PNG/CharacterRight_Standing.png");
-	
-	_sprites.push_back(new GameEngine::Sprite());
-	_sprites.back()->init(_screenWidth/4, 1.0f, _screenWidth/4, _screenHeight/4, "Textures/jimmyJump_pack/PNG/CharacterRight_Standing.png");
-
 	gameLoop();
 }
 
@@ -40,6 +34,7 @@ void MainGame::initSystems() {
 	_window.create("Game Engine", _screenWidth, _screenHeight, 0); 
 
 	initShaders();
+	_spriteBatch.init();
 }
 
 void MainGame::initShaders() {
@@ -137,12 +132,23 @@ void MainGame::drawGame() {
 	// it in byref, and to do that we pass in its a pointer to its first index, just
 	//like we would with an other vector/array. A matrix is a two-dimensional array bassically, 
 	glUniformMatrix4fv(pLocation, 1, GL_FALSE, &(cameraMatrix[0][0]));
-	
 
-	//for each sprite in _sprites, draw it.
-	for (int i = 0; i < _sprites.size(); i++) {
-		_sprites[i]->draw();
-	}
+	_spriteBatch.begin();
+
+	glm::vec4 pos(0.0f, 0.0f, 50.f, 50.0f);
+	glm::vec4 uv(0.0f, 0.0f, 1.0f, 1.0f);
+	GameEngine::GLTexture texture = GameEngine::ResourceManager::getTexture("Textures/jimmyJump_pack/PNG/ChracterRight_Standing.png");
+	GameEngine::Color color;
+	color.r = 255;
+	color.g = 255;
+	color.b = 255;
+	color.a = 255;
+
+	_spriteBatch.draw(pos, uv, texture.id, 0.0f, color);
+
+	_spriteBatch.end();
+
+	_spriteBatch.renderBatch();
 
 	glBindTexture(GL_TEXTURE_2D, 0);
 

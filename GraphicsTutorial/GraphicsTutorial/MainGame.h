@@ -9,6 +9,7 @@
 #include <GameEngine\Sprite.h>
 #include <GameEngine\Window.h>
 #include <GameEngine\Camera2D.h>
+#include <GameEngine\SpriteBatch.h>
 
 #include <vector>
 
@@ -35,11 +36,10 @@ private:
 	int _screenHeight;
 	GameState _gameState;
 
-	std::vector <GameEngine::Sprite*> _sprites;
-
 	GameEngine::GLSLProgram _colorProgram;
 	GameEngine::GLTexture _playerTexture;
 	GameEngine::Camera2D _camera;
+	GameEngine::SpriteBatch _spriteBatch;
 
 	float _fps;
 	float _maxFPS;

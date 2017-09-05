@@ -17,7 +17,7 @@ void main() {
 	
 	//Camera2D update
 	//we have to multiply our orthographic matrix (P) with
-	//the vertexPosition to get our normalized device coordinates? - Camera2d
+	//the vertexPosition to get our normalized device coordinates?
 	//because vertexPosition is a vec2, we convert it to a vec4, set z = 0.0, and w always equals 1.0 for the moment.
 	//I'm assuming w is pitch/yaw. Then we convert it back to vec2 with .xy
 	

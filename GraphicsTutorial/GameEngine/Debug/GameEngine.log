@@ -1,6 +1,1 @@
-﻿  Camera2D.cpp
-opengl32.lib(OPENGL32.dll) : warning LNK4006: __NULL_IMPORT_DESCRIPTOR already defined in SDL2.lib(SDL2.dll); second definition ignored
-opengl32.lib(OPENGL32.dll) : warning LNK4221: This object file does not define any previously undefined public symbols, so it will not be used by any link operation that consumes this library
-glew32.lib(glew32.dll) : warning LNK4006: __NULL_IMPORT_DESCRIPTOR already defined in SDL2.lib(SDL2.dll); second definition ignored
-glew32.lib(glew32.dll) : warning LNK4221: This object file does not define any previously undefined public symbols, so it will not be used by any link operation that consumes this library
-  GameEngine.vcxproj -> D:\Repositories\GraphicsTutorial\GraphicsTutorial\Debug\GameEngine.lib
+﻿  GameEngine.vcxproj -> D:\Repositories\GraphicsTutorial\GraphicsTutorial\Debug\GameEngine.lib

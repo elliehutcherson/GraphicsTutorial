@@ -86,8 +86,6 @@ namespace GameEngine {
 
 		glBindBuffer(GL_ARRAY_BUFFER, _vboId);
 
-
-
 		glDrawArrays(GL_TRIANGLES, 0, 6);
 
 		glDisableVertexAttribArray(0);

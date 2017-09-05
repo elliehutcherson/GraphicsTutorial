@@ -47,7 +47,7 @@ namespace GameEngine {
 		//Also, because we are using glm::vec4, we have the methods x, y, z, and w. We are storing
 		//coordinates in x and y, and height and width in z and w. 
 		newGlyph->topLeft.color = color;
-		newGlyph->topLeft.setPosition(destRect.x, destRect.y + uvRect.w);
+		newGlyph->topLeft.setPosition(destRect.x, destRect.y + destRect.w);
 		newGlyph->topLeft.setUV(uvRect.x, uvRect.y + uvRect.w);
 		
 		newGlyph->bottomLeft.color = color;
@@ -59,7 +59,7 @@ namespace GameEngine {
 		newGlyph->bottomRight.setUV(uvRect.x + uvRect.z, uvRect.y);
 		
 		newGlyph->topRight.color = color;
-		newGlyph->topRight.setPosition(destRect.x + destRect.z, destRect.y + uvRect.w);
+		newGlyph->topRight.setPosition(destRect.x + destRect.z, destRect.y + destRect.w);
 		newGlyph->topRight.setUV(uvRect.x + uvRect.z, uvRect.y + uvRect.w);
 
 		_glyphs.push_back(newGlyph); //adding it to our vector of glyphs.
@@ -82,7 +82,7 @@ namespace GameEngine {
 	void SpriteBatch::createRenderBatches() {
 		std::vector <Vertex> vertices;
 		//This just speeds things up a little bit, because we know the size it should be.
-		vertices.reserve(_glyphs.size() * 6);
+		vertices.resize(_glyphs.size() * 6);
 
 		if (_glyphs.empty()) {
 			return;

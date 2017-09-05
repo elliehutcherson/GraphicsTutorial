@@ -1,1 +1,4 @@
-﻿  GameEngine.vcxproj -> D:\Repositories\GraphicsTutorial\GraphicsTutorial\Debug\GameEngine.lib
+﻿  SpriteBatch.cpp
+d:\repositories\graphicstutorial\graphicstutorial\gameengine\spritebatch.cpp(73): warning C4018: '<': signed/unsigned mismatch
+d:\repositories\graphicstutorial\graphicstutorial\gameengine\spritebatch.cpp(111): warning C4018: '<': signed/unsigned mismatch
+  GameEngine.vcxproj -> D:\Repositories\GraphicsTutorial\GraphicsTutorial\Debug\GameEngine.lib

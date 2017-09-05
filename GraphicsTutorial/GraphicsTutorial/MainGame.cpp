@@ -137,7 +137,7 @@ void MainGame::drawGame() {
 
 	glm::vec4 pos(0.0f, 0.0f, 50.f, 50.0f);
 	glm::vec4 uv(0.0f, 0.0f, 1.0f, 1.0f);
-	GameEngine::GLTexture texture = GameEngine::ResourceManager::getTexture("Textures/jimmyJump_pack/PNG/ChracterRight_Standing.png");
+	GameEngine::GLTexture texture = GameEngine::ResourceManager::getTexture("Textures/jimmyJump_pack/PNG/CharacterRight_Standing.png");
 	GameEngine::Color color;
 	color.r = 255;
 	color.g = 255;

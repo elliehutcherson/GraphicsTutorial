@@ -60,6 +60,7 @@ void MainGame::proccessInput() {
 	const float CAMERA_SPEED = 2.0f;
 	const float SCALE_SPEED = 0.05f;
 
+	//Returns 1 if there is a pending event or 0 if there are none available.
 	while (SDL_PollEvent(&myEvent)) {
 		switch (myEvent.type) {
 			case SDL_QUIT:

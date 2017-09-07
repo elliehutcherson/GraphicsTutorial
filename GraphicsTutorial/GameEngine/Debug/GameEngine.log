@@ -1,4 +1,6 @@
-﻿  SpriteBatch.cpp
-d:\repositories\graphicstutorial\graphicstutorial\gameengine\spritebatch.cpp(73): warning C4018: '<': signed/unsigned mismatch
-d:\repositories\graphicstutorial\graphicstutorial\gameengine\spritebatch.cpp(111): warning C4018: '<': signed/unsigned mismatch
+﻿  Timing.cpp
+d:\repositories\graphicstutorial\graphicstutorial\gameengine\timing.cpp(27): warning C4244: 'initializing': conversion from 'Uint32' to 'float', possible loss of data
+d:\repositories\graphicstutorial\graphicstutorial\gameengine\timing.cpp(29): warning C4244: 'argument': conversion from 'double' to 'Uint32', possible loss of data
+d:\repositories\graphicstutorial\graphicstutorial\gameengine\timing.cpp(39): warning C4244: 'initializing': conversion from 'Uint32' to 'float', possible loss of data
+d:\repositories\graphicstutorial\graphicstutorial\gameengine\timing.cpp(41): warning C4244: 'initializing': conversion from 'Uint32' to 'float', possible loss of data
   GameEngine.vcxproj -> D:\Repositories\GraphicsTutorial\GraphicsTutorial\Debug\GameEngine.lib

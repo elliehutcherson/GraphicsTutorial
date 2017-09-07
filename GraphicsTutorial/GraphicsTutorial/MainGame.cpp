@@ -35,6 +35,7 @@ void MainGame::initSystems() {
 
 	initShaders();
 	_spriteBatch.init();
+	_fpsLimiter.init(_maxFPS);
 }
 
 void MainGame::initShaders() {
@@ -56,7 +57,7 @@ void MainGame::proccessInput() {
 	
 	SDL_Event myEvent;
 
-	const float CAMERA_SPEED = 20.f;
+	const float CAMERA_SPEED = 2.0f;
 	const float SCALE_SPEED = 0.05f;
 
 	while (SDL_PollEvent(&myEvent)) {
@@ -69,27 +70,31 @@ void MainGame::proccessInput() {
 				break;
 			case SDL_KEYDOWN:
 				//to check the key
-				switch (myEvent.key.keysym.sym) {
-					case SDLK_w:
-						_camera.setPosition(_camera.getPosition() + glm::vec2(0.0f, CAMERA_SPEED));
-						break;
-					case SDLK_s:
-						_camera.setPosition(_camera.getPosition() + glm::vec2(0.0f, -CAMERA_SPEED));
-						break;
-					case SDLK_a:
-						_camera.setPosition(_camera.getPosition() + glm::vec2(-CAMERA_SPEED, 0.0f));
-						break;
-					case SDLK_d:
-						_camera.setPosition(_camera.getPosition() + glm::vec2(CAMERA_SPEED, 0.0f));
-						break;
-					case SDLK_q:
-						_camera.setScale(_camera.getScale() + SCALE_SPEED);
-						break;
-					case SDLK_e:
-						_camera.setScale(_camera.getScale() - SCALE_SPEED);
-				}
+				_inputManager.pressKey(myEvent.key.keysym.sym);
+				break;
+			case SDL_KEYUP:
+				_inputManager.releaseKey(myEvent.key.keysym.sym);
 				break;
 		}
+	}
+
+	if (_inputManager.isKeyPressed(SDLK_w)) {
+		_camera.setPosition(_camera.getPosition() + glm::vec2(0.0f, CAMERA_SPEED));
+	}
+	if (_inputManager.isKeyPressed(SDLK_s)) {
+		_camera.setPosition(_camera.getPosition() + glm::vec2(0.0f, -CAMERA_SPEED));
+	}
+	if (_inputManager.isKeyPressed(SDLK_a)) {
+		_camera.setPosition(_camera.getPosition() + glm::vec2(-CAMERA_SPEED, 0.0f));
+	}
+	if (_inputManager.isKeyPressed(SDLK_d)) {
+		_camera.setPosition(_camera.getPosition() + glm::vec2(CAMERA_SPEED, 0.0f));
+	}
+	if (_inputManager.isKeyPressed(SDLK_q)) {
+		_camera.setScale(_camera.getScale() + SCALE_SPEED);
+	}
+	if (_inputManager.isKeyPressed(SDLK_e)) {
+		_camera.setScale(_camera.getScale() - SCALE_SPEED);
 	}
 }
 
@@ -161,66 +166,23 @@ void MainGame::drawGame() {
 
 void MainGame::gameLoop() {
 	while (_gameState != GameState::EXIT) {
-		//Used for frame time measurijng
-		float startTicks = SDL_GetTicks();
+		_fpsLimiter.begin();
 
 		proccessInput();
-		_time += 0.05f;
+		_time += 0.01f;
 
 		_camera.update();
 
 		drawGame();
-		calculateFPS();
 
+		_fps = _fpsLimiter.end();
+		
 		static int frameCount = 0;
 		frameCount++;
 		if (frameCount == 10) {
 			std::cout << _fps << std::endl;
 			frameCount = 0;
 		}
-
-		//Limit fps to max fps
-		float frameTicks = SDL_GetTicks() - startTicks;
-		if (1000.0f / _maxFPS > frameTicks) {
-			SDL_Delay(1000.0 / _maxFPS - frameTicks);
-		}
 	}
 }
 
-void MainGame::calculateFPS() {
-	static const int NUM_SAMPLES = 100;
-	static float frameTimes[NUM_SAMPLES];
-	static int currentFrame = 0;
-
-	static float prevTicks = SDL_GetTicks();
-
-	float currentTicks = SDL_GetTicks();
-
-	_frameTime = currentTicks - prevTicks;
-	frameTimes[currentFrame % NUM_SAMPLES] = _frameTime;
-
-	prevTicks = currentTicks;
-
-	int count;
-	currentFrame++;
-	if (currentFrame < NUM_SAMPLES) {
-		count = currentFrame;
-	}
-	else {
-		count = NUM_SAMPLES;
-	}
-
-	float frameTimeAverage = 0;
-	for (int i = 0; i < count; i++) {
-		frameTimeAverage += frameTimes[i];
-	}
-	frameTimeAverage /= count;
-
-	if (frameTimeAverage > 0) {
-		_fps = 1000.0f / frameTimeAverage;
-	}
-	else {
-		_fps = 60.0f;
-	}
-
-}

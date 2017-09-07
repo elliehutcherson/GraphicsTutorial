@@ -10,6 +10,8 @@
 #include <GameEngine\Window.h>
 #include <GameEngine\Camera2D.h>
 #include <GameEngine\SpriteBatch.h>
+#include <GameEngine\InputManager.h>
+#include <GameEngine\Timing.h>
 
 #include <vector>
 
@@ -29,7 +31,6 @@ private:
 	void gameLoop();
 	void proccessInput();
 	void drawGame();
-	void calculateFPS();
 
 	GameEngine::Window _window;
 	int _screenWidth;
@@ -40,10 +41,10 @@ private:
 	GameEngine::GLTexture _playerTexture;
 	GameEngine::Camera2D _camera;
 	GameEngine::SpriteBatch _spriteBatch;
+	GameEngine::InputManager _inputManager;
+	GameEngine::FpsLimiter _fpsLimiter;
 
-	float _fps;
 	float _maxFPS;
-	float _frameTime;
-
+	float _fps;
 	float _time;
 };

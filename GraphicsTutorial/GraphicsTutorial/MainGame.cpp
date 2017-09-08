@@ -60,13 +60,21 @@ void MainGame::proccessInput() {
 	const float CAMERA_SPEED = 2.0f;
 	const float SCALE_SPEED = 0.05f;
 
+	/*The SDL_Event structure to be filled with the next event from the queue, or NULL
+	Returns 1 if there is a pending event or 0 if there are none available.
+	If event is not NULL, the next event is removed from the queue and stored in the SDL_Event structure pointed to by event.
+	If event is NULL, it simply returns 1 if there is an event in the queue, but will not remove it.
+	As this function implicitly calls SDL_PumpEvents(), you can only call this function in the thread that set the video mode.
+	SDL_PollEvent() is the favored way of receiving system events since it can be done from the main loop and does not suspend 
+	the main loop while waiting on an event to be posted.*/
+	
 	while (SDL_PollEvent(&myEvent)) {
 		switch (myEvent.type) {
 			case SDL_QUIT:
 				_gameState = GameState::EXIT;
 				break;
 			case SDL_MOUSEMOTION:
-				//std::cout << myEvent.motion.x << "," << myEvent.motion.y << std::endl;
+				_inputManager.setMouseCoords(myEvent.motion.x, myEvent.motion.y);
 				break;
 			case SDL_KEYDOWN:
 				//to check the key
@@ -75,6 +83,14 @@ void MainGame::proccessInput() {
 			case SDL_KEYUP:
 				_inputManager.releaseKey(myEvent.key.keysym.sym);
 				break;
+			case SDL_MOUSEBUTTONDOWN:
+				//this will keep track of white button was pressed.
+				_inputManager.pressKey(myEvent.button.button);
+				break;
+			case SDL_MOUSEBUTTONUP:
+				_inputManager.releaseKey(myEvent.button.button);
+				break;
+
 		}
 	}
 
@@ -95,6 +111,12 @@ void MainGame::proccessInput() {
 	}
 	if (_inputManager.isKeyPressed(SDLK_e)) {
 		_camera.setScale(_camera.getScale() - SCALE_SPEED);
+	}
+
+	if (_inputManager.isKeyPressed(SDL_BUTTON_LEFT)) {
+		glm::vec2 mouseCoords = _inputManager.getMouseCoords();
+		mouseCoords = _camera.convertScreenToWorld(mouseCoords);
+		std::cout << mouseCoords.x << " " << mouseCoords.y << std::endl;
 	}
 }
 
@@ -119,13 +141,6 @@ void MainGame::drawGame() {
 	//I accidentally had the texture location set to 1, this came up with a black screen.
 	//If you are doing multitexture, you would set the texture location equal to the active texture set above.
 	glUniform1i(textureLocation, 0);
-
-	//Set the constantly changing time variable
-	//We only need to set the uniform whenever we need to change it.
-	//So first we find the location of the variable
-	GLint timeLocation = _colorProgram.getUniformLocation("time");
-	////After getting the location, we need to send it a new value, sending 1 float hence "1f".
-	glUniform1f(timeLocation,_time);
 
 	//This is the P variable in our colorshading.vert. The P variable is for our orthogrphaic
 	//matrix from the Camera2D class.
@@ -179,7 +194,7 @@ void MainGame::gameLoop() {
 		
 		static int frameCount = 0;
 		frameCount++;
-		if (frameCount == 10) {
+		if (frameCount == 10000) {
 			std::cout << _fps << std::endl;
 			frameCount = 0;
 		}

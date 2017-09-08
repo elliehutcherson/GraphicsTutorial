@@ -1,6 +1,2 @@
-﻿  Timing.cpp
-d:\repositories\graphicstutorial\graphicstutorial\gameengine\timing.cpp(27): warning C4244: 'initializing': conversion from 'Uint32' to 'float', possible loss of data
-d:\repositories\graphicstutorial\graphicstutorial\gameengine\timing.cpp(29): warning C4244: 'argument': conversion from 'double' to 'Uint32', possible loss of data
-d:\repositories\graphicstutorial\graphicstutorial\gameengine\timing.cpp(39): warning C4244: 'initializing': conversion from 'Uint32' to 'float', possible loss of data
-d:\repositories\graphicstutorial\graphicstutorial\gameengine\timing.cpp(41): warning C4244: 'initializing': conversion from 'Uint32' to 'float', possible loss of data
+﻿  Camera2D.cpp
   GameEngine.vcxproj -> D:\Repositories\GraphicsTutorial\GraphicsTutorial\Debug\GameEngine.lib

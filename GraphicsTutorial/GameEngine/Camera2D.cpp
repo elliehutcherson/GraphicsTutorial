@@ -2,12 +2,6 @@
 
 namespace GameEngine {
 
-	//Setting these 4x4 matrix equal to the identity matrix
-	//			| 1 0 0 0 | not exactly sure how 1.0f equals
-	//			| 0 1 0 0 | the identity matrix, but I guess
-	//			| 0 0 1 0 | that works.
-	//			| 0 0 0 1 |
-
 	Camera2D::Camera2D() :
 		_position(0.0f, 0.0f),
 		_cameraMatrix(1.0f),
@@ -19,6 +13,11 @@ namespace GameEngine {
 	{
 	}
 
+	//Setting these 4x4 matrix equal to the identity matrix
+	//			| 1 0 0 0 | not exactly sure how 1.0f equals
+	//			| 0 1 0 0 | the identity matrix, but I guess
+	//			| 0 0 1 0 | that works.
+	//			| 0 0 0 1 |
 
 	Camera2D::~Camera2D()
 	{
@@ -59,7 +58,15 @@ namespace GameEngine {
 
 			_needsMatrixUpdate = false; //Whenever it needs to be updated again, we'll set it to true.
 		}
-
 	}
 
+	glm::vec2 Camera2D::convertScreenToWorld(glm::vec2 screenCoords) {
+		//Make it so that 0 is the center
+		screenCoords -= glm::vec2(_screenWidth / 2, _screenHeight / 2);
+		//Scale the coordinates
+		screenCoords /= _scale;
+		// Translate with the camera position
+		screenCoords += _position;
+		return screenCoords;
+	}
 }

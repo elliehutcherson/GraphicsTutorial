@@ -30,12 +30,10 @@ namespace GameEngine {
 
 			_textureMap.insert(make_pair(texturePath, newTexture));
 
-			std::cout << "Loaded new texture!\n";
 			return newTexture;
 		}
 
 		//if its found, we want to return the value (where we store the texture)
-		std::cout << "Loaded cached texture!\n";
 		return mit->second;
 	}
 }

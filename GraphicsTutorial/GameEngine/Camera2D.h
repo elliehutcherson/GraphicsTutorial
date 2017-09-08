@@ -17,6 +17,8 @@ namespace GameEngine {
 		//update camera matrix
 		void update();
 
+		glm::vec2 convertScreenToWorld(glm::vec2 screenCoords);
+
 		//setters
 		//Anytime we set the position or scale again, we need to update our _cameraMatrix
 		void setPosition(glm::vec2& newPosition) { _position = newPosition; _needsMatrixUpdate = true; } 

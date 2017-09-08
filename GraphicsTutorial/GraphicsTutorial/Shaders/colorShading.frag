@@ -9,7 +9,6 @@ in vec2 fragmentUV;
 out vec4 color;
 
 //a uniform variable is like a global variable for the mesh (stays constant)
-uniform float time;
 //any texture (2d,3d) are called samplers in GLSL
 uniform sampler2D mySampler;
 
@@ -25,7 +24,5 @@ void main() {
 	//This is just for fun I think, not how it is supposed to look.
 	color = textureColor * fragmentColor;
 	
-	color = vec4(fragmentColor.r * (cos(fragmentPosition.x * 4.0 + time) + 1.0) * 0.5,
-				 fragmentColor.g * (sin(fragmentPosition.y * -8.0 + time) + 0.5) * 0.5,
-				 fragmentColor.b * (cos(fragmentPosition.x * 0.4 + time) + 1.0) * 0.5, fragmentColor.a) * textureColor; 
+	color = fragmentColor * textureColor; 
 }

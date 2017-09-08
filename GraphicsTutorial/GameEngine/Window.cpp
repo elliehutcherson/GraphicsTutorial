@@ -57,6 +57,11 @@ namespace GameEngine {
 		//Set V-Sync On/Off
 		SDL_GL_SetSwapInterval(0);
 
+		//Enable alpha blending
+		glEnable(GL_BLEND);
+		//Take the source alpha, and get the inverse
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
 		return 0;
 	}
 
